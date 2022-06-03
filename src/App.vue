@@ -4,25 +4,25 @@
   <main>
     <!-- Sidebar start -->
 
-    My Documents
+    <h1>My Documents</h1>
 
-    New Document
+    <h2>New Document</h2>
 
     <!-- Sidebar end -->
 
     <!-- Header start -->
 
-    Document Name
+    <p>Document Name</p>
 
-    Save Changes
+    <button>Save Changes</button>
 
     <!-- Header end -->
 
     <!-- Main start -->
 
-    Markdown
+    <h2>Markdown</h2>
 
-    Preview
+    <p>Preview</p>
 
     <!-- Main end -->
   </main>
