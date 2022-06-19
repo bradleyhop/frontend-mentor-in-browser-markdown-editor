@@ -1,0 +1,17 @@
+/*
+ * Sets project defaults, globals, media query breakpoints, and app layout
+ */
+
+@import "colors.scss";
+
+// reset browser defaults
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+  // only font in project
+  font-family: "Space Mono", monospace;
+}
