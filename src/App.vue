@@ -56,26 +56,36 @@ export default {
   <!-- Sidebar start -->
 
   <header class="app-header">
-    <nav>
-      <button>
+    <nav class="app-nav">
+      <button class="menu-button">
         <img
+          class="hamburger-icon"
           src="@/assets/img/icon-menu.svg"
           alt="hamburger icon to expand
       navigation"
         />
       </button>
-      <h1>MY DOCUMENTS</h1>
-      <button>New Document</button>
+      <div class="menu-content">
+        <h1>MY DOCUMENTS</h1>
+        <button>New Document</button>
 
-      <!-- dark and light mode slider down here -->
+        <!-- dark and light mode slider down here -->
+      </div>
     </nav>
 
     <!-- Sidebar end -->
 
     <img src="@/assets/img/logo.svg" alt="MARKDOWN logo" class="app-logo" />
 
-    <div class="document-name">Document Name</div>
-    <div class="filename"></div>
+    <div class="document-container">
+      <img
+        src="@/assets/img/icon-document.svg"
+        alt="icon of document"
+        class="document-icon"
+      />
+      <div class="document-name">Document Name</div>
+      <div class="filename"></div>
+    </div>
 
     <button>
       <img
@@ -110,15 +120,52 @@ export default {
 <style lang="scss">
 .app-header {
   background-color: $black3;
+
+  .app-nav {
+    display: inline-flex;
+    height: 5rem;
+
+    .menu-button {
+      width: 5rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+
+      .hamburger-icon {
+        filter: invert(52%) sepia(100%) saturate(2%) hue-rotate(348deg)
+          brightness(96%) contrast(94%);
+      }
+    }
+
+    .menu-content {
+      display: none;
+    }
+  }
+
+  .app-logo {
+    margin: 0 2rem;
+    height: 11px;
+  }
 }
 
-.app-logo {
-  height: 1.5rem;
-  background-color: black;
+.document-container {
+  display: inline-flex;
+
+  .document-icon {
+    height: 1rem;
+  }
+
+  .document-name {
+    color: $white;
+  }
 }
 
 .markdown-text {
   width: 100%;
   min-height: 50vh;
+}
+
+.html-preview-text {
+  margin: 5rem;
 }
 </style>
