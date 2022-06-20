@@ -1,6 +1,13 @@
 <script>
-import DOMPurify from "dompurify";
+// marked will take the markdown and output html
 import { marked } from "marked";
+// remove any script nastiness that users may input
+import DOMPurify from "dompurify";
+// this sets the code highlighting to a certain colorscheme
+// NOTE: will have to make our own based on design docs?
+import "highlight.js/styles/github.css";
+// add syntax highlighting to code
+import hljs from "highlight.js/lib/common";
 
 export default {
   data() {
@@ -19,7 +26,7 @@ export default {
         this.markdownText = data[1].content;
       })
       .catch(() => {
-        console.log("error!!");
+        console.error("fetch error!!");
       });
   },
 
@@ -32,7 +39,12 @@ export default {
           gfm: true,
           breaks: true,
           smartLists: true,
-          xhtml: false,
+          smartypants: true,
+          xhtml: true,
+          highlight: function (code) {
+            console.log("code fired!");
+            return hljs.highlightAuto(code).value;
+          },
         })
       );
     },
@@ -83,13 +95,14 @@ export default {
     <header class="header-preview">
       <h2>Preview</h2>
       <!-- on press, hide the markdown code and only show the preview -->
-      <div class="html-preview-text" v-html="preview"></div>
       <button>
         <img
           src="@/assets/img/icon-hide-preview.svg"
-          alt="icon of eye indicating markdown preview"
+          alt="icon of eye indicating markdown preview toggle"
         />
       </button>
+      <!-- HTML preview of MD -->
+      <div class="html-preview-text" v-html="preview"></div>
     </header>
   </main>
 </template>
@@ -106,6 +119,6 @@ export default {
 
 .markdown-text {
   width: 100%;
-  height: 50vh;
+  min-height: 50vh;
 }
 </style>
