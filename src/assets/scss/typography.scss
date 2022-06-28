@@ -1,0 +1,75 @@
+/*
+ * Typography per supplied documentation.
+ * We're using element selectors to target the html-rendered markdown preview
+ */
+
+h1 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+h2 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 28px;
+  font-weight: lighter;
+}
+
+h3 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+h4 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+h5 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+h6 {
+  font-family: 'Roboto Slab', serif;
+  font-size: 14px;
+  font-weight: bold;
+  color: $dark-orange;
+}
+
+p {
+  font-family: 'Roboto Slab', serif;
+  font-size: 14px;
+  line-height: 24px;
+}
+
+b {
+  @extend p;
+  font-weight: bold;
+}
+
+
+code {
+  @extend p;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.in-app-heading-m {
+  font-family: 'Roboto', sans-serif;
+  font-size: 15px;
+}
+
+.in-app-heading-s {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+}
+
+.in-app-body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: lighter;
+}

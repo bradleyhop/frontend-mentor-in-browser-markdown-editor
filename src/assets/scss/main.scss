@@ -3,6 +3,7 @@
  */
 
 @import "colors.scss";
+@import "typography.scss";
 
 // reset browser defaults
 *,
@@ -16,7 +17,7 @@
   font-family: "Space Mono", monospace;
 }
 
-body {
+html {
   // REM
   font-size: 14px;
 }
