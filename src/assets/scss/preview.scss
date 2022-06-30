@@ -1,0 +1,46 @@
+/*
+ * These are settings for the general html tags rendered from the markdown.
+ * NB: Do not set colors for text and background here b/c of themeing!
+ */
+
+textarea {
+  border: none;
+}
+
+blockquote {
+  border-radius: 4px;
+  border-left: 4px solid $dark-orange;
+  font-weight: bold;
+  padding: 1.7rem;
+}
+
+pre {
+  border-radius: 4px;
+  padding: 1.7rem;
+}
+
+ol {
+  margin-left: 1.7rem;
+  list-style-position: inside; // sets margin to nubmers and not content
+}
+
+ul {
+  margin-left: 1.72rem;
+  list-style: none;
+
+  & > li::before {
+    content: "\2022"; // unicode for a bullet
+    color: $dark-orange;
+    display: inline-block;
+    // change these
+    padding-right: 1.14rem;
+  }
+}
+
+// To have code highlighting when its inline with text.
+// https://stackoverflow.com/questions/32812941/highlight-js-inline-mode-possible
+
+code {
+  @extend p;
+  font-family: "Roboto Mono", monospace;
+}

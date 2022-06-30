@@ -26,13 +26,13 @@ export default {
         this.markdownText = data[1].content;
       })
       .catch(() => {
-        console.error("fetch error!!");
+        this.markdownText = "# Cannot find default Markdown text!!";
       });
   },
 
   computed: {
     // 'watches' textarea field for changes and updates html preview
-    preview: function () {
+    previewMD: function () {
       return DOMPurify.sanitize(
         marked(this.markdownText, {
           pendantic: false,
@@ -42,7 +42,6 @@ export default {
           smartypants: true,
           xhtml: true,
           highlight: function (code) {
-            console.log("code fired!");
             return hljs.highlightAuto(code).value;
           },
         })
@@ -98,21 +97,23 @@ export default {
 
   <main>
     <header class="header-markdown">
-      <h2>Markdown</h2>
+      <h2 class="in-app-heading-s main-heading">MARKDOWN</h2>
       <textarea class="markdown-text" v-model="markdownText"></textarea>
     </header>
 
     <header class="header-preview">
-      <h2>Preview</h2>
-      <!-- on press, hide the markdown code and only show the preview -->
-      <button>
-        <img
-          src="@/assets/img/icon-hide-preview.svg"
-          alt="icon of eye indicating markdown preview toggle"
-        />
-      </button>
+      <div class="preview-heading-container">
+        <h2 class="in-app-heading-s main-heading">PREVIEW</h2>
+        <!-- on press, hide the markdown code and only show the preview -->
+        <button>
+          <img
+            src="@/assets/img/icon-hide-preview.svg"
+            alt="icon of eye indicating markdown preview toggle"
+          />
+        </button>
+      </div>
       <!-- HTML preview of MD -->
-      <div class="html-preview-text" v-html="preview"></div>
+      <div class="html-preview-text" v-html="previewMD"></div>
     </header>
   </main>
 </template>
@@ -160,6 +161,14 @@ export default {
   }
 }
 
+.preview-heading-container {
+  display: inline-flex;
+}
+
+.main-heading {
+  min-height: 3rem;
+}
+
 .markdown-text {
   width: 100%;
   min-height: 50vh;
@@ -167,5 +176,10 @@ export default {
 
 .html-preview-text {
   margin: 5rem;
+
+  // seperate each child element
+  & > * {
+    margin-bottom: 1.43rem;
+  }
 }
 </style>
