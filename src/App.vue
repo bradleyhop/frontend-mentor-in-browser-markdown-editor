@@ -76,6 +76,8 @@ export default {
 
     <img src="@/assets/img/logo.svg" alt="MARKDOWN logo" class="app-logo" />
 
+    <div class="menu-separator"></div>
+
     <div class="document-container">
       <img
         src="@/assets/img/icon-document.svg"
@@ -86,32 +88,47 @@ export default {
       <div class="filename"></div>
     </div>
 
-    <button>
+    <button class="delete-icon">
       <img
         src="@/assets/img/icon-delete.svg"
         alt="trash can icon to delete markdown text"
       />
     </button>
-    <button>Save Changes</button>
+    <button class="save-changes-button">
+      <span class="save-changes-cont">
+        <img
+          src="@/assets/img/icon-save.svg"
+          alt="save icon"
+          class="save-changes-icon"
+        />
+        <span class="save-changes-text">Save Changes</span>
+      </span>
+    </button>
   </header>
 
   <main>
     <header class="header-markdown">
-      <h2 class="in-app-heading-s main-heading">MARKDOWN</h2>
-      <textarea class="markdown-text" v-model="markdownText"></textarea>
+      <div class="main-heading">
+        <h2 class="in-app-heading-s">MARKDOWN</h2>
+      </div>
+      <div class="md-text-cont">
+        <textarea class="markdown-text" v-model="markdownText"></textarea>
+      </div>
     </header>
 
     <header class="header-preview">
-      <div class="preview-heading-container">
-        <h2 class="in-app-heading-s main-heading">PREVIEW</h2>
-        <!-- on press, hide the markdown code and only show the preview -->
-        <button>
-          <img
-            src="@/assets/img/icon-hide-preview.svg"
-            alt="icon of eye indicating markdown preview toggle"
-          />
-        </button>
+      <div class="main-heading">
+        <h2 class="in-app-heading-s">PREVIEW</h2>
+        <div class="p-btn-cont">
+          <button class="preview-button">
+            <img
+              src="@/assets/img/icon-hide-preview.svg"
+              alt="icon of eye indicating markdown preview toggle"
+            />
+          </button>
+        </div>
       </div>
+      <!-- on press, hide the markdown code and only show the preview -->
       <!-- HTML preview of MD -->
       <div class="html-preview-text" v-html="previewMD"></div>
     </header>
@@ -119,6 +136,8 @@ export default {
 </template>
 
 <style lang="scss">
+$margin-16: 1.15rem; // offset for app elements
+
 .app-header {
   background-color: $black3;
 
@@ -143,6 +162,54 @@ export default {
     }
   }
 
+  .menu-separator {
+    display: inline-block;
+    width: 1px;
+    height: 2.35rem;
+    background-color: #979797;
+    margin: 16px 24px 16px 30px;
+  }
+
+  .delete-icon {
+    border: none;
+    background: none;
+
+    &:hover {
+      filter: invert(53%) sepia(7%) saturate(7495%) hue-rotate(331deg)
+        brightness(94%) contrast(90%);
+      cursor: pointer;
+    }
+  }
+
+  .save-changes-button {
+    border: none;
+    border-radius: 4px;
+    background-color: $dark-orange;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $light-orange;
+    }
+
+    .save-changes-cont {
+      display: flex;
+      justify-content: center;
+      padding: 0.59rem 0.94rem;
+    }
+
+    .save-changes-icon {
+      height: 0.91rem;
+      width: 0.91rem;
+      margin-right: 0.5rem;
+    }
+
+    .save-changes-text {
+      font-family: "Roboto", mono;
+      font-size: 0.88rem;
+      color: $white;
+    }
+  }
+
   .app-logo {
     margin: 0 2rem;
     height: 11px;
@@ -161,21 +228,29 @@ export default {
   }
 }
 
-.preview-heading-container {
-  display: inline-flex;
-}
-
 .main-heading {
+  display: inline-flex;
   min-height: 3rem;
+  background-color: $off-white;
+  width: 100%;
+
+  .in-app-heading-s {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-left: $margin-16;
+  }
 }
 
 .markdown-text {
   width: 100%;
   min-height: 50vh;
+  padding: 0 $margin-16;
 }
 
 .html-preview-text {
-  margin: 5rem;
+  width: 100%;
+  padding: 0 $margin-16;
 
   // seperate each child element
   & > * {
