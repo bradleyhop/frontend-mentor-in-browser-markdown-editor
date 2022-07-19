@@ -112,6 +112,7 @@ export default {
   justify-content: center;
   flex-direction: column;
   padding-left: $margin-16;
+  flex-grow: 1;
 }
 
 .markdown-text {
@@ -119,18 +120,23 @@ export default {
   font-family: "Roboto", mono;
   min-width: 50vw;
   min-height: 150vh;
-  padding: 9px $margin-16;
+  padding: 0.64rem $margin-16;
   overflow: scroll;
   line-height: 1.7rem;
 }
 
 .preview-container {
   width: 100%;
+
+  .preview-button-container {
+    display: flex;
+  }
 }
 
 .preview-button {
   background: none;
   border: none;
+  margin-right: 1.14rem;
 }
 
 .html-preview-text {
