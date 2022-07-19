@@ -25,7 +25,11 @@ export default {
     </div>
   </div>
   <!-- Sidebar start -->
-  <div class="app-header">
+  <!-- dynamically set app-header so that the sidebar doesn't force it to the button -->
+  <div
+    class="app-header"
+    :style="{ 'min-width': !menuOpen ? '100%' : 'calc(100% - 250px)' }"
+  >
     <nav class="app-nav">
       <!-- toggle menu open here -->
       <button @click="menuOpen = !menuOpen" class="menu-button">
@@ -33,8 +37,7 @@ export default {
           <img
             class="hamburger-icon"
             src="@/assets/img/icon-menu.svg"
-            alt="hamburger icon to expand
-      navigation"
+            alt="hamburger icon to expand navigation"
           />
         </span>
         <span v-else>
@@ -50,7 +53,9 @@ export default {
 
     <img src="@/assets/img/logo.svg" alt="MARKDOWN logo" class="app-logo" />
 
-    <div class="menu-separator"></div>
+    <div class="menu-separator-container">
+      <div class="menu-separator"></div>
+    </div>
 
     <div class="document-menu-container">
       <img
@@ -62,7 +67,7 @@ export default {
       <div class="filename"></div>
     </div>
 
-    <div class="save-del-container">
+    <div v-if="!menuOpen" class="save-del-container">
       <button class="delete-icon">
         <img
           src="@/assets/img/icon-delete.svg"
@@ -97,6 +102,7 @@ export default {
   overflow-x: hidden;
   float: left;
   background-color: $black2;
+  position: sticky;
 
   .menu-content {
     margin-left: 1.71rem;
@@ -131,9 +137,13 @@ export default {
 
 .app-header {
   background-color: $black3;
+  display: inline-flex;
+  align-items: center;
+  min-width: calc(100% - 250px);
 
   .document-menu-container {
     display: inline-flex;
+    flex-grow: 1;
 
     .document-icon {
       height: 1rem;
@@ -164,17 +174,19 @@ export default {
     }
   }
 
-  .menu-separator {
-    display: inline-block;
-    width: 1px;
-    height: 2.35rem;
-    background-color: #979797;
-    margin: 0 24px 0 30px;
+  .menu-separator-container {
+    display: inline-flex;
+    align-items: center;
+
+    .menu-separator {
+      width: 1px;
+      height: 2.35rem;
+      background-color: #979797;
+      margin: 0 24px 0 30px;
+    }
   }
 
   .save-del-container {
-    float: right;
-
     .delete-icon {
       border: none;
       background: none;
@@ -200,7 +212,7 @@ export default {
 
       .save-changes-cont {
         display: flex;
-        justify-content: center;
+        align-items: center;
         padding: 0.59rem 0.94rem;
       }
 
