@@ -1,84 +1,58 @@
 <script>
-// marked will take the markdown and output html
-import { marked } from "marked";
-// remove any script nastiness that users may input
-import DOMPurify from "dompurify";
-// this sets the code highlighting to a certain colorscheme
-// NOTE: will have to make our own based on design docs?
-import "highlight.js/styles/github.css";
-// add syntax highlighting to code
-import hljs from "highlight.js/lib/common";
+// local components
+import MDEditor from "./components/MDEditor.vue";
 
 export default {
+  components: {
+    MDEditor,
+  },
+
   data() {
     return {
       light: true, // light or dark theme
-      markdownText: "", // on init, will show default MD text
-      htmlText: "", // html from MD
+      menuOpen: false, // sidebar menu closed by default
     };
-  },
-
-  beforeCreate() {
-    // load in default MD text as supplied in our local json file
-    fetch("./src/assets/data/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        this.markdownText = data[1].content;
-      })
-      .catch(() => {
-        this.markdownText = "# Cannot find default Markdown text!!";
-      });
-  },
-
-  computed: {
-    // 'watches' textarea field for changes and updates html preview
-    previewMD: function () {
-      return DOMPurify.sanitize(
-        marked(this.markdownText, {
-          pendantic: false,
-          gfm: true,
-          breaks: true,
-          smartLists: true,
-          smartypants: true,
-          xhtml: true,
-          highlight: function (code) {
-            return hljs.highlightAuto(code).value;
-          },
-        })
-      );
-    },
   },
 };
 </script>
 
 <template>
+  <div v-if="menuOpen" class="menu-container">
+    <div class="menu-content">
+      <h1 class="sidebar-title">MY DOCUMENTS</h1>
+      <button class="new-document-btn">+ New Document</button>
+      <!-- dark and light mode slider down here -->
+    </div>
+  </div>
   <!-- Sidebar start -->
-
-  <header class="app-header">
+  <div class="app-header">
     <nav class="app-nav">
-      <button class="menu-button">
-        <img
-          class="hamburger-icon"
-          src="@/assets/img/icon-menu.svg"
-          alt="hamburger icon to expand
+      <!-- toggle menu open here -->
+      <button @click="menuOpen = !menuOpen" class="menu-button">
+        <span v-if="!menuOpen">
+          <img
+            class="hamburger-icon"
+            src="@/assets/img/icon-menu.svg"
+            alt="hamburger icon to expand
       navigation"
-        />
+          />
+        </span>
+        <span v-else>
+          <img
+            class="close-menu-icon"
+            src="@/assets/img/icon-close.svg"
+            alt="x icon to close side bar menu"
+          />
+        </span>
       </button>
-      <div class="menu-content">
-        <h1>MY DOCUMENTS</h1>
-        <button>New Document</button>
-
-        <!-- dark and light mode slider down here -->
-      </div>
     </nav>
-
     <!-- Sidebar end -->
 
     <img src="@/assets/img/logo.svg" alt="MARKDOWN logo" class="app-logo" />
 
     <div class="menu-separator"></div>
 
-    <div class="document-container">
+    <div class="document-menu-container">
       <img
         src="@/assets/img/icon-document.svg"
         alt="icon of document"
@@ -88,58 +62,91 @@ export default {
       <div class="filename"></div>
     </div>
 
-    <button class="delete-icon">
-      <img
-        src="@/assets/img/icon-delete.svg"
-        alt="trash can icon to delete markdown text"
-      />
-    </button>
-    <button class="save-changes-button">
-      <span class="save-changes-cont">
+    <div class="save-del-container">
+      <button class="delete-icon">
         <img
-          src="@/assets/img/icon-save.svg"
-          alt="save icon"
-          class="save-changes-icon"
+          src="@/assets/img/icon-delete.svg"
+          alt="trash can icon to delete markdown text"
         />
-        <span class="save-changes-text">Save Changes</span>
-      </span>
-    </button>
-  </header>
+      </button>
+      <button class="save-changes-button">
+        <span class="save-changes-cont">
+          <img
+            src="@/assets/img/icon-save.svg"
+            alt="save icon"
+            class="save-changes-icon"
+          />
+          <span class="save-changes-text">Save Changes</span>
+        </span>
+      </button>
+    </div>
+  </div>
 
   <main>
-    <header class="header-markdown">
-      <div class="main-heading">
-        <h2 class="in-app-heading-s">MARKDOWN</h2>
-      </div>
-      <div class="md-text-cont">
-        <textarea class="markdown-text" v-model="markdownText"></textarea>
-      </div>
-    </header>
-
-    <header class="header-preview">
-      <div class="main-heading">
-        <h2 class="in-app-heading-s">PREVIEW</h2>
-        <div class="p-btn-cont">
-          <button class="preview-button">
-            <img
-              src="@/assets/img/icon-hide-preview.svg"
-              alt="icon of eye indicating markdown preview toggle"
-            />
-          </button>
-        </div>
-      </div>
-      <!-- on press, hide the markdown code and only show the preview -->
-      <!-- HTML preview of MD -->
-      <div class="html-preview-text" v-html="previewMD"></div>
-    </header>
+    <MDEditor />
   </main>
 </template>
 
 <style lang="scss">
-$margin-16: 1.15rem; // offset for app elements
+.menu-container {
+  height: 100vh;
+  width: 250px;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  overflow-x: hidden;
+  float: left;
+  background-color: $black2;
+
+  .menu-content {
+    margin-left: 1.71rem;
+    margin-top: 1.71rem;
+  }
+
+  .sidebar-title {
+    font-family: "Roboto", mono;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: 2px;
+    line-height: 1.14rem;
+    color: $grey2;
+    margin-bottom: 1.71rem;
+  }
+
+  .new-document-btn {
+    color: $white;
+    border: none;
+    border-radius: 4px;
+    background-color: $dark-orange;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.07rem;
+    padding: 10px 42px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $light-orange;
+    }
+  }
+}
 
 .app-header {
   background-color: $black3;
+
+  .document-menu-container {
+    display: inline-flex;
+
+    .document-icon {
+      height: 1rem;
+      margin-right: 1.14rem;
+    }
+
+    .document-name {
+      color: $white;
+      font-size: 13px;
+      line-height: 15px;
+      font-family: "Roboto", sans-serif;
+    }
+  }
 
   .app-nav {
     display: inline-flex;
@@ -147,18 +154,13 @@ $margin-16: 1.15rem; // offset for app elements
 
     .menu-button {
       width: 5rem;
-      background: none;
+      background-color: $black4;
       border: none;
       cursor: pointer;
 
-      .hamburger-icon {
-        filter: invert(52%) sepia(100%) saturate(2%) hue-rotate(348deg)
-          brightness(96%) contrast(94%);
+      &:hover {
+        background-color: $dark-orange;
       }
-    }
-
-    .menu-content {
-      display: none;
     }
   }
 
@@ -167,94 +169,59 @@ $margin-16: 1.15rem; // offset for app elements
     width: 1px;
     height: 2.35rem;
     background-color: #979797;
-    margin: 16px 24px 16px 30px;
+    margin: 0 24px 0 30px;
   }
 
-  .delete-icon {
-    border: none;
-    background: none;
+  .save-del-container {
+    float: right;
 
-    &:hover {
-      filter: invert(53%) sepia(7%) saturate(7495%) hue-rotate(331deg)
-        brightness(94%) contrast(90%);
-      cursor: pointer;
-    }
-  }
+    .delete-icon {
+      border: none;
+      background: none;
+      margin-right: 1.86rem;
 
-  .save-changes-button {
-    border: none;
-    border-radius: 4px;
-    background-color: $dark-orange;
-
-    &:hover {
-      cursor: pointer;
-      background-color: $light-orange;
+      &:hover {
+        filter: invert(53%) sepia(7%) saturate(7495%) hue-rotate(331deg)
+          brightness(94%) contrast(90%);
+        cursor: pointer;
+      }
     }
 
-    .save-changes-cont {
-      display: flex;
-      justify-content: center;
-      padding: 0.59rem 0.94rem;
-    }
+    .save-changes-button {
+      border: none;
+      border-radius: 4px;
+      background-color: $dark-orange;
+      margin-right: $margin-16;
 
-    .save-changes-icon {
-      height: 0.91rem;
-      width: 0.91rem;
-      margin-right: 0.5rem;
-    }
+      &:hover {
+        cursor: pointer;
+        background-color: $light-orange;
+      }
 
-    .save-changes-text {
-      font-family: "Roboto", mono;
-      font-size: 0.88rem;
-      color: $white;
+      .save-changes-cont {
+        display: flex;
+        justify-content: center;
+        padding: 0.59rem 0.94rem;
+      }
+
+      .save-changes-icon {
+        height: 0.91rem;
+        width: 0.91rem;
+        margin-right: 0.5rem;
+      }
+
+      .save-changes-text {
+        font-family: "Roboto", sans-serif;
+        font-size: 0.88rem;
+        line-height: 1.29rem;
+        color: $white;
+      }
     }
   }
 
   .app-logo {
     margin: 0 2rem;
     height: 11px;
-  }
-}
-
-.document-container {
-  display: inline-flex;
-
-  .document-icon {
-    height: 1rem;
-  }
-
-  .document-name {
-    color: $white;
-  }
-}
-
-.main-heading {
-  display: inline-flex;
-  min-height: 3rem;
-  background-color: $off-white;
-  width: 100%;
-
-  .in-app-heading-s {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    padding-left: $margin-16;
-  }
-}
-
-.markdown-text {
-  width: 100%;
-  min-height: 50vh;
-  padding: 0 $margin-16;
-}
-
-.html-preview-text {
-  width: 100%;
-  padding: 0 $margin-16;
-
-  // seperate each child element
-  & > * {
-    margin-bottom: 1.43rem;
   }
 }
 </style>
