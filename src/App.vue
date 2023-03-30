@@ -98,14 +98,15 @@ export default {
 
 <style lang="scss">
 .menu-container {
+  background-color: $black2;
+  float: left;
   height: 100vh;
-  z-index: 1;
+  height: 100dvh;
   top: 0;
   left: 0;
   overflow-x: hidden;
-  float: left;
-  background-color: $black2;
   position: sticky;
+  z-index: 1;
 
   .menu-content {
     margin-left: 1.71rem;
@@ -113,7 +114,7 @@ export default {
   }
 
   .sidebar-title {
-    font-family: "Roboto", mono;
+    font-family: $roboto-ff;
     font-size: 1rem;
     font-weight: 500;
     letter-spacing: 2px;
@@ -127,7 +128,7 @@ export default {
     border: none;
     border-radius: 4px;
     background-color: $dark-orange;
-    font-family: "Roboto", sans-serif;
+    font-family: $roboto-ff;
     font-size: 1.07rem;
     padding: 10px 42px;
     cursor: pointer;
@@ -157,7 +158,7 @@ export default {
       color: $white;
       font-size: 13px;
       line-height: 15px;
-      font-family: "Roboto", sans-serif;
+      font-family: $roboto-ff;
     }
   }
 
@@ -226,7 +227,7 @@ export default {
       }
 
       .save-changes-text {
-        font-family: "Roboto", sans-serif;
+        font-family: $roboto-ff;
         font-size: 0.88rem;
         line-height: 1.29rem;
         color: $white;
