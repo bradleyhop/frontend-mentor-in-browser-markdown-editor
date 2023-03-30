@@ -17,7 +17,11 @@ export default {
 </script>
 
 <template>
-  <div v-if="menuOpen" class="menu-container">
+  <div
+    v-if="menuOpen"
+    class="menu-container"
+    :style="{ width: !menuOpen ? '0' : '250px' }"
+  >
     <div class="menu-content">
       <h1 class="sidebar-title">MY DOCUMENTS</h1>
       <button class="new-document-btn">+ New Document</button>
@@ -95,7 +99,6 @@ export default {
 <style lang="scss">
 .menu-container {
   height: 100vh;
-  width: 250px;
   z-index: 1;
   top: 0;
   left: 0;
