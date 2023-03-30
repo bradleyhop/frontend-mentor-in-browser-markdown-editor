@@ -8,27 +8,22 @@ import DOMPurify from "dompurify";
 import "highlight.js/styles/github.css";
 // add syntax highlighting to code
 import hljs from "highlight.js/lib/common";
+// easier to import js than load in JSON; not sure about project requirements, tho
+import demo from "@/assets/data/data.js";
 
 export default {
   name: "MDEditor",
 
   data() {
     return {
+      demoMD: demo, // default markdown displayed on page load
       markdownText: "", // on init, will show default MD text
       htmlText: "", // html from MD
     };
   },
 
-  beforeCreate() {
-    // load in default MD text as supplied in our local json file
-    fetch("./src/assets/data/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        this.markdownText = data[1].content;
-      })
-      .catch(() => {
-        this.markdownText = "# Cannot find default Markdown text!!";
-      });
+  mounted() {
+    this.markdownText = this.demoMD[1].content;
   },
 
   computed: {
@@ -116,13 +111,13 @@ export default {
 }
 
 .markdown-text {
+  font-family: $roboto-ff;
   font-size: 1rem;
-  font-family: "Roboto", mono;
-  min-width: 50vw;
+  line-height: 1.7rem;
   min-height: 150vh;
+  min-width: 50vw;
   padding: 0.64rem $margin-16;
   overflow: scroll;
-  line-height: 1.7rem;
 }
 
 .preview-container {
