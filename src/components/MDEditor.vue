@@ -11,6 +11,8 @@ import DOMPurify from "dompurify";
 import "highlight.js/styles/github.css";
 // add syntax highlighting to code
 import hljs from "highlight.js/lib/common";
+// easier to import js than load in JSON; not sure about project requirements, tho
+import demo from "@/assets/data/data.js";
 
 export default {
   name: "MDEditor",
@@ -136,13 +138,13 @@ export default {
 }
 
 .markdown-text {
+  font-family: $roboto-ff;
   font-size: 1rem;
-  font-family: "Roboto", mono;
-  min-width: 50vw;
+  line-height: 1.7rem;
   min-height: 150vh;
+  min-width: 50vw;
   padding: 0.64rem $margin-16;
   overflow: scroll;
-  line-height: 1.7rem;
 }
 
 .preview-container {
