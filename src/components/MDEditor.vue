@@ -1,4 +1,7 @@
 <script>
+// load in default markdown text
+import defaultText from "@/assets/data/data.js";
+
 // marked will take the markdown and output html
 import { marked } from "marked";
 // remove any script nastiness that users may input
@@ -14,22 +17,35 @@ export default {
 
   data() {
     return {
-      markdownText: "", // on init, will show default MD text
+      markdownText: defaultText[1].content, // on init, will show default MD text
       htmlText: "", // html from MD
+      hiddenPreview: false, // show preview by default
     };
   },
 
-  beforeCreate() {
-    // load in default MD text as supplied in our local json file
-    fetch("./src/assets/data/data.json")
-      .then((response) => response.json())
-      .then((data) => {
-        this.markdownText = data[1].content;
-      })
-      .catch(() => {
-        this.markdownText = "# Cannot find default Markdown text!!";
-      });
+  methods: {
+    // current very buggy; expand markdown text field while hiding the preview window
+    hidePreview() {
+      this.hiddenPreview = !this.hiddenPreview
+      const preview = document.getElementById("preview-container");
+      const md = document.getElementById("markdown-container");
+
+      preview.classList.toggle("hide-preview", this.hiddenPreview);
+      md.classList.toggle("expand-md", this.hiddenPreview);
+    },
   },
+
+  // beforeCreate() {
+  //   // load in default MD text as supplied in our local json file
+  //   fetch("./src/assets/data/data.json")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       this.markdownText = data[1].content;
+  //     })
+  //     .catch(() => {
+  //       this.markdownText = "# Cannot find default Markdown text!!";
+  //     });
+  // },
 
   computed: {
     // 'watches' textarea field for changes and updates html preview
@@ -54,7 +70,9 @@ export default {
 
 <template>
   <div class="mdeditor">
-    <div class="markdown-container">
+
+    <!-- markdown text field -->
+    <div class="markdown-container" id="markdown-container">
       <header class="header-markdown">
         <div class="main-heading">
           <h2 class="in-app-heading-s">MARKDOWN</h2>
@@ -65,12 +83,13 @@ export default {
       </div>
     </div>
 
-    <div class="preview-container">
+    <!-- markdown preview window -->
+    <div class="preview-container" id="preview-container">
       <header class="header-preview">
         <div class="main-heading">
           <h2 class="in-app-heading-s">PREVIEW</h2>
           <div class="preview-button-container">
-            <button class="preview-button">
+            <button class="preview-button" @click="hidePreview">
               <img
                 src="@/assets/img/icon-hide-preview.svg"
                 alt="icon of eye indicating markdown preview toggle"
@@ -98,6 +117,7 @@ export default {
 
 .markdown-container .preview-container {
   max-width: 50%;
+  transition: width 0.3s ease-in;
 }
 
 .main-heading {
@@ -127,6 +147,7 @@ export default {
 
 .preview-container {
   width: 100%;
+  transition: width 0.3s ease-in;
 
   .preview-button-container {
     display: flex;
@@ -137,6 +158,7 @@ export default {
   background: none;
   border: none;
   margin-right: 1.14rem;
+  cursor: pointer;
 }
 
 .html-preview-text {
@@ -147,5 +169,13 @@ export default {
   & > * {
     margin-bottom: 1.43rem;
   }
+}
+
+.hide-preview {
+  width: 0px;
+}
+
+.expand-md {
+  width: 100%;
 }
 </style>

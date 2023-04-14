@@ -17,7 +17,7 @@ export default {
 </script>
 
 <template>
-  <div v-if="menuOpen" class="menu-container">
+  <div class="menu-container" :class="menuOpen ? 'show-menu' : ''" >
     <div class="menu-content">
       <h1 class="sidebar-title">MY DOCUMENTS</h1>
       <button class="new-document-btn">+ New Document</button>
@@ -67,7 +67,7 @@ export default {
       <div class="filename"></div>
     </div>
 
-    <div v-if="!menuOpen" class="save-del-container">
+    <div class="save-del-container">
       <button class="delete-icon">
         <img
           src="@/assets/img/icon-delete.svg"
@@ -95,18 +95,21 @@ export default {
 <style lang="scss">
 .menu-container {
   height: 100vh;
-  width: 250px;
   z-index: 1;
   top: 0;
   left: 0;
+  margin-left: 0px; // changes with .show-menu on opening menu
   overflow-x: hidden;
   float: left;
   background-color: $black2;
   position: sticky;
+  transition: width 0.3s ease-in;
+  width: 0px; // changes with .show-menu on opening menu
 
   .menu-content {
     margin-left: 1.71rem;
     margin-top: 1.71rem;
+    white-space: nowrap;
   }
 
   .sidebar-title {
@@ -235,5 +238,10 @@ export default {
     margin: 0 2rem;
     height: 11px;
   }
+}
+
+.show-menu {
+  width: 250px;
+  margin-left: 250px;
 }
 </style>
